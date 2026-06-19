@@ -1,0 +1,63 @@
+
+#include "gfx.h"
+#include "input.h"
+#include "objTestCube.h"
+
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <map>
+#include <vector>
+
+bool gApplicationQuit = false;
+
+void mainLoop();
+
+Object* testObject;
+float gDeltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+std::vector<Object*> gObjectList;
+
+int main()
+{
+
+	if (!initGFX())
+		return -1;
+
+	std::cout << "And so... it begins yet again, at the end of time..." << std::endl;
+
+	setupInput();
+
+	gObjectList.push_back(new ObjectTestCube(glm::vec3(3.0f,0.0f,-20.0f)));
+	gObjectList.push_back(new ObjectTestCube(glm::vec3(10.0f, 0.0f, -5.0f)));
+	gObjectList.push_back(new ObjectTestCube(glm::vec3(-8.0f, -5.5f, -8.0f)));
+	gObjectList.push_back(new ObjectTestCube(glm::vec3(-5.0f, -0.5f, -12.0f)));
+
+	Material testMat;
+
+	while (!gApplicationQuit)
+	{
+		float currentFrame = static_cast<float>(glfwGetTime());
+		gDeltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		mainLoop();
+	}
+
+	return 0;
+}
+
+void mainLoop()
+{
+	inputProcess();
+	gCamera.Update();
+
+	for (unsigned int i = 0; i < gObjectList.size(); i++)
+	{
+		gObjectList[i]->Update();
+	}
+
+	gfxRender();
+}
