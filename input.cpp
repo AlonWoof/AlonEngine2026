@@ -10,6 +10,10 @@ static bool firstMouse = true;
 float lastX;// = SCR_WIDTH / 2.0f;
 float lastY;// = SCR_HEIGHT / 2.0f;
 
+bool currentKeys[GLFW_KEY_LAST];
+bool lastKeys[GLFW_KEY_LAST];
+static void updateKeyStates();
+
 void setupInput()
 {
     lastX = gScreenSettings.resX / 2.0f;
@@ -21,6 +25,7 @@ void setupInput()
 
 void inputProcess()
 {
+    updateKeyStates();
 	gGamePad.leftStickX = std::lerp(gGamePad.leftStickX, 0.0f, 0.1f);
 	gGamePad.leftStickY = std::lerp(gGamePad.leftStickY, 0.0f, 0.1f);
 	gGamePad.rightStickX = 0.0f;
@@ -29,17 +34,36 @@ void inputProcess()
     gGamePad.mouseX = std::lerp(gGamePad.mouseX, 0.0f, 0.1f);
     gGamePad.mouseY = std::lerp(gGamePad.mouseY, 0.0f, 0.1f);
 
-    if (glfwGetKey(gWindow, GLFW_KEY_W) == GLFW_PRESS)
+    if (inputKeyHeld(GLFW_KEY_W))
         gGamePad.leftStickY = std::lerp(gGamePad.leftStickY, 1.0f, 0.1f);
-    if (glfwGetKey(gWindow, GLFW_KEY_S) == GLFW_PRESS)
+    if (inputKeyHeld(GLFW_KEY_S))
         gGamePad.leftStickY = std::lerp(gGamePad.leftStickY, -1.0f, 0.1f);
-    if (glfwGetKey(gWindow, GLFW_KEY_A) == GLFW_PRESS)
+    if (inputKeyHeld(GLFW_KEY_A))
         gGamePad.leftStickX = std::lerp(gGamePad.leftStickX, -1.0f, 0.1f);
-    if (glfwGetKey(gWindow, GLFW_KEY_D) == GLFW_PRESS)
+    if (inputKeyHeld(GLFW_KEY_D))
         gGamePad.leftStickX = std::lerp(gGamePad.leftStickX, 1.0f, 0.1f);
+
+    
 }
 
+static void updateKeyStates()
+{ 
+    for (int i = 0; i < GLFW_KEY_LAST; i++)
+    {
+        lastKeys[i] = currentKeys[i];
+        currentKeys[i] = (glfwGetKey(gWindow, i) == GLFW_PRESS);
+    }
+}
 
+bool inputKeyPressed(int key)
+{
+    return currentKeys[key] && !lastKeys[key];
+}
+
+bool inputKeyHeld(int key)
+{
+    return currentKeys[key] && lastKeys[key];
+}
 
 void inputMouseCallback(GLFWwindow* window, double xposIn, double yposIn)
 {

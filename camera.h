@@ -87,7 +87,7 @@ public:
 
     void debugInput()
     {
-        if (glfwGetKey(gWindow, GLFW_KEY_F11) == GLFW_PRESS)
+        if (inputKeyPressed(GLFW_KEY_F11))
         {
             if (mode == CAMMD_FREE)
             {

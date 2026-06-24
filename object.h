@@ -16,10 +16,15 @@ public:
 	glm::vec3 Position;
 	glm::vec3 Rotation;
 
-	Object()
+	Object(glm::vec3 nPos = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 nRot = glm::vec3(0.0f, 0.0f, 0.0f))
 	{
-		//Position = pos;
-		//Rotation = rot;
+		Init(nPos, nRot);
+	}
+
+	virtual void Init(glm::vec3 nPos, glm::vec3 nRot)
+	{
+		Position = nPos;
+		Rotation = nRot;
 	}
 
 	virtual void Update()

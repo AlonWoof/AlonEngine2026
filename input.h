@@ -30,6 +30,9 @@ extern GamePad gGamePad;
 void setupInput();
 void inputProcess();
 void inputMouseCallback(GLFWwindow* window, double xposIn, double yposIn);
+bool inputKeyPressed(int key);
+bool inputKeyHeld(int key);
+
 
 
 

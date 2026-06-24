@@ -64,7 +64,8 @@ public:
 
 	ObjectTestCube(glm::vec3 nPos = glm::vec3(0.0f,0.0f,0.0f))
 	{
-        Position = nPos;
+        
+        Init(nPos, glm::vec3(0,0,0));
 
 		mShader = new Shader("default");
 		mShader->use();

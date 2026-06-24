@@ -4,7 +4,6 @@
 
 #include "shader.h"
 
-#include <tinyxml2.h>
 #include <Windows.h>
 #include <string>
 #include <math.h>
@@ -14,6 +13,21 @@
 #include <chrono>
 #include <ctime>
 
+typedef struct
+{
+	unsigned char shaderNameSize;
+	const char* shaderName;
+	glm::vec4 matColor;
+
+	unsigned int diffuseTexNameSize;
+	const char* diffuseTexName;
+
+	unsigned int maskTexNameSize;
+	const char* maskTexName;
+
+	unsigned int normalTexNameSize;
+	const char* normalTexName;
+}MatFile;
 
 class Material
 {
@@ -42,27 +56,6 @@ public:
 
 		path += fileName;
 		path += ".mat";
-
-		tinyxml2::XMLDocument* matFile = new tinyxml2::XMLDocument();
-		tinyxml2::XMLElement* rootElement = matFile->NewElement("Material");
-		tinyxml2::XMLElement* shaderElement = rootElement->InsertNewChildElement("Shader");
-		shaderElement->SetText("default");
-
-		tinyxml2::XMLElement* diffuseTexElement = rootElement->InsertNewChildElement("diffuseTex");
-		diffuseTexElement->SetText("./data/textures/NakieHomu.png");
-
-		tinyxml2::XMLElement* maskTexElement = rootElement->InsertNewChildElement("maskTex");
-		maskTexElement->SetText("./data/textures/NakieHomu.png");
-
-		tinyxml2::XMLElement* normalTexElement = rootElement->InsertNewChildElement("normalTex");
-		normalTexElement->SetText("./data/textures/NakieHomu.png");
-
-		matFile->Print();
-
-		tinyxml2::XMLPrinter streamer;
-		matFile->Print(&streamer);
-
-		std::cout << streamer.CStr() << std::endl;
 
 	};
 };
