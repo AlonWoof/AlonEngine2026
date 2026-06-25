@@ -35,7 +35,7 @@ int main()
 	gObjectList.push_back(new ObjectTestCube(glm::vec3(-8.0f, -5.5f, -8.0f)));
 	gObjectList.push_back(new ObjectTestCube(glm::vec3(-5.0f, -0.5f, -12.0f)));
 
-	Material testMat;
+	Material testMat("./data/materials/test.mat");
 
 	while (!gApplicationQuit)
 	{

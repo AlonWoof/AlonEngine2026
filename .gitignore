@@ -34,6 +34,6 @@
 *.user
 /AlonEngine2026/x64
 *.png
-/bin
 /x64
 /.vs
+*.pdb

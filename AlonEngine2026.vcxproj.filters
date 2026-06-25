@@ -16,6 +16,9 @@
     <Filter Include="Header Files\object">
       <UniqueIdentifier>{fc1986da-bab5-40c6-bf9a-611644900be2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{6e0f67a5-436a-430b-8e9c-94ee4972da9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,6 +40,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,5 +71,25 @@
     <ClInclude Include="material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\data\shaders\default.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\data\shaders\default.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\data\shaders\standard.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bin\data\shaders\standard.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
