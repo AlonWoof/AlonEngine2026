@@ -12,4 +12,11 @@
 
 unsigned int loadTexture(char const* path);
 
+struct Texture 
+{
+    unsigned int id;
+    std::string type;
+    std::string path;
+};
+
 #endif // !_TEXTURE_H_

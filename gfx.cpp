@@ -2,6 +2,7 @@
 #include "gfx.h"
 #include "camera.h"
 #include "object.h"
+#include "light.h"
 
 #include <string>
 #include <fstream>
@@ -16,6 +17,9 @@ GLFWwindow* gWindow;
 Camera gCamera;
 glm::mat4 gProjectionMatrix;
 glm::mat4 gViewMatrix;
+
+Light gDirLight;
+glm::vec3 gAmbientLight;
 
 static void fbSizeCallback(GLFWwindow* window, int width, int height);
 extern bool gApplicationQuit;
@@ -50,6 +54,11 @@ bool initGFX()
 	}
 
 	glEnable(GL_DEPTH_TEST);
+
+	//Set default light
+	gDirLight.Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+	gDirLight.Color = glm::vec3(1.0f, 0.98f, 0.9f);
+	gAmbientLight = glm::vec3(0.25f, 0.25f, 0.3f);
 
 	return true;
 }

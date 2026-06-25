@@ -2,6 +2,8 @@
 #ifndef _MATERIAL_H_
 #define _MATERIAL_H_
 
+#include "gfx.h"
+#include "light.h"
 #include "shader.h"
 #include "utility.h"
 #include <json.hpp>
@@ -16,38 +18,32 @@
 
 extern glm::mat4 gProjectionMatrix;
 extern glm::mat4 gViewMatrix;
+extern Light gDirLight;
+extern glm::vec3 gAmbientLight;
+extern Camera gCamera;
 
 using json = nlohmann::json;
 
 #define COLOR_TO_CHAR(f) static_cast<unsigned char>(std::round(f * 255.0f))
 
-typedef struct
-{
-	unsigned char shaderNameSize;
-	const char* shaderName;
-	glm::vec4 matColor;
-
-	unsigned int diffuseTexNameSize;
-	const char* diffuseTexName;
-
-	unsigned int maskTexNameSize;
-	const char* maskTexName;
-
-	unsigned int normalTexNameSize;
-	const char* normalTexName;
-}MatFile;
 
 class Material
 {
 public:
-	Shader* mShader;
-	unsigned int diffuseTex;
-	unsigned int maskTex;
-	unsigned int normalTex;
+	std::string name = std::string("NakieHomu");
 
-	glm::vec4 color;
-	glm::vec3 specColor;
-	float shininess;
+	Shader* mShader;
+	std::string shaderName;
+	unsigned int diffuseTex;
+	std::string diffuseTexPath;
+	unsigned int maskTex;
+	std::string maskTexPath;
+	unsigned int normalTex;
+	std::string normalTexPath;
+
+	glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec3 specColor = glm::vec3(0.0f, 0.0f, 0.0f);
+	float specGloss = 0.01f;
 
 	static glm::vec4 hexStringToColor(std::string input)
 	{
@@ -93,6 +89,13 @@ public:
 	Material(const char* fileName)
 	{
 		std::ifstream f(fileName);
+		if (!f.is_open())
+		{
+			mShader = new Shader("default");
+			std::cout << "	ERROR OPENING " << fileName << " !" << std::endl;
+			return;
+		}
+
 		json matFile = json::parse(f);
 
 		//matFile.parse();
@@ -102,20 +105,19 @@ public:
 		//writeMaterialToFile("TEST");
 	};
 
-	void writeMaterialToFile(const char* fileName)
+	void writeMaterialToFile()
 	{
 		std::string path;
 		path += "./data/materials/";
 
 		CreateDirectory(std::wstring(path.begin(), path.end()).c_str(), NULL);
 
-		path += fileName;
+		path += name;
 		path += ".mat";
 
 		json matFile;
-		matFile["diffuseMap"] = "NakieHomura.png";
-		matFile["shader"] = "default";
-
+		matFile["diffuseTex"] = diffuseTexPath;
+		matFile["shader"] = "standard";
 
 		glm::vec4 testColor(0.25f, 0.5f, 1.0f, 1.0f);
 		matFile["color"] = int_to_hex(packColor(testColor));
@@ -131,22 +133,28 @@ public:
 
 	void Set(glm::mat4 model)
 	{
+		if (!mShader)
+			return;
+
 		mShader->use();
 		mShader->setMat4("projection", gProjectionMatrix);
 		mShader->setMat4("view", gViewMatrix);
 		mShader->setMat4("model", model);
+		mShader->setVec3("viewPos", gCamera.Position);
+
 		mShader->setVec4("color", color);
+
+		mShader->setVec3("dirLight.direction", gDirLight.Direction);
+		mShader->setVec3("dirLight.color", gDirLight.Color);
+		mShader->setVec3("ambient", gAmbientLight);
+		mShader->setFloat("specGloss", specGloss);
+		mShader->setVec3("specColor", specColor);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuseTex);
 
 	}
 
-
-	void loadMaterial()
-	{
-
-	}
 
 };
 

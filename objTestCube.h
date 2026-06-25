@@ -4,6 +4,7 @@
 
 #include "object.h"
 #include "shader.h"
+#include "model.h"
 #include <iostream>
 
 //Copyright 2026 Jennifer Haden

@@ -16,3 +16,14 @@ std::vector<unsigned char> hex_to_bytes(const std::string& hex)
     return bytes;
 }
 
+std::string path_to_filename(std::string in, bool removeExt)
+{
+    std::string out = base_name<std::string>(in);
+
+    if (removeExt)
+        return remove_extension(out);
+
+    return out;
+}
+
+

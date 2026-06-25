@@ -12,5 +12,6 @@ uniform sampler2D diffuseTex;
 
 void main()
 {
-    FragColor = texture(diffuseTex, fs_in.TexCoords);
+    //error color
+    FragColor = vec4(1.0, 0.0, 1.0, 1.0);
 }

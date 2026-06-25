@@ -5,6 +5,7 @@
 
 #include "stb_image.h"
 #include "texture.h"
+#include "utility.h"
 
 
 unsigned int loadTexture(char const* path)
@@ -32,6 +33,8 @@ unsigned int loadTexture(char const* path)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        std::cout << path_to_filename(path) << std::endl;
 
         stbi_image_free(data);
     }

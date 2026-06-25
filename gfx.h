@@ -31,6 +31,8 @@ extern GLFWwindow* gWindow;
 extern Camera gCamera;
 extern float gDeltaTime;
 
+extern Light gDirLight;
+extern glm::vec3 gAmbientLight;
 
 
 #endif // !_GFX_H_
