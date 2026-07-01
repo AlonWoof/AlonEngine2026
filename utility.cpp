@@ -26,4 +26,16 @@ std::string path_to_filename(std::string in, bool removeExt)
     return out;
 }
 
+std::string extract_directory(const std::string& path) {
+    // Look for the last occurrence of either a forward slash or backslash
+    size_t found = path.find_last_of("/\\");
+
+    if (found != std::string::npos) {
+        return path.substr(0, found);
+    }
+
+    return ""; // No directory separator found
+}
+
+
 

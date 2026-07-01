@@ -1,5 +1,5 @@
 {
-    "color": "4080ff80",
+    "color": "ffffffff",
     "diffuseTex": "./data/textures/NakieHomu.png",
     "shader": "standard"
 }

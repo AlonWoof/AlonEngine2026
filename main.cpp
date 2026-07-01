@@ -2,6 +2,7 @@
 #include "gfx.h"
 #include "input.h"
 #include "objTestCube.h"
+#include "objTestJenny.h"
 
 #include <string>
 #include <fstream>
@@ -30,7 +31,7 @@ int main()
 
 	setupInput();
 
-	gObjectList.push_back(new ObjectTestCube(glm::vec3(3.0f,0.0f,-20.0f)));
+	gObjectList.push_back(new ObjectTestJenny(glm::vec3(0.0f,0.0f,-5.0f)));
 	gObjectList.push_back(new ObjectTestCube(glm::vec3(10.0f, 0.0f, -5.0f)));
 	gObjectList.push_back(new ObjectTestCube(glm::vec3(-8.0f, -5.5f, -8.0f)));
 	gObjectList.push_back(new ObjectTestCube(glm::vec3(-5.0f, -0.5f, -12.0f)));

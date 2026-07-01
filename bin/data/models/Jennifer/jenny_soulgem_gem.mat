@@ -1,0 +1,5 @@
+{
+    "color": "ffffffff",
+    "diffuseTex": "./data/models/jennifer/ref_soulgem.png",
+    "shader": "envmap"
+}

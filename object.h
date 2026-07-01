@@ -30,7 +30,7 @@ public:
 	virtual void Update()
 	{
 		//Code for updates here
-		std::cout << "I'm here too lol" << std::endl;
+		
 	}
 
 	virtual void Draw()

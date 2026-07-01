@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Jennifer\Documents\Project\AlonEngine2026\include;C:\Users\Jennifer\Documents\Project\glfw-3.4.bin.WIN64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Jennifer\Documents\Project\glfw-3.4.bin.WIN64\lib-vc2022;C:\Users\Jennifer\Documents\Project\AlonEngine2026\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Jennifer\Documents\Project\AlonEngine2026\include;C:\Users\Jennifer\Documents\Project\glfw-3.4.bin.WIN64\include;C:\Users\Jennifer\Documents\Project\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jennifer\Documents\Project\glfw-3.4.bin.WIN64\lib-vc2022;C:\Users\Jennifer\Documents\Project\AlonEngine2026\lib;C:\Users\Jennifer\Documents\Project\assimp\build\lib\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>.\bin</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mtd.lib;unit.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,6 +151,7 @@
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="awmodel.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="gfx.h" />
     <ClInclude Include="input.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="objTestCube.h" />
+    <ClInclude Include="objTestJenny.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="utility.h" />

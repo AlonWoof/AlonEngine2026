@@ -86,15 +86,27 @@ public:
 		return out;
 	}
 
-	Material(const char* fileName)
+	Material(const char* fileName, bool createNew = false)
 	{
 		std::ifstream f(fileName);
-		if (!f.is_open())
+
+		name = path_to_filename(fileName,true);
+
+		if (!f.is_open() && !createNew)
 		{
 			mShader = new Shader("default");
 			std::cout << "	ERROR OPENING " << fileName << " !" << std::endl;
 			return;
 		}
+		else if (!f.is_open())
+		{
+			mShader = new Shader("default");
+			std::cout << "	CREATED PLACEHOLDER MATERIAL: " << fileName << std::endl;
+			createPlaceholderMaterial(fileName);
+			return;
+		}
+
+
 
 		json matFile = json::parse(f);
 
@@ -104,6 +116,19 @@ public:
 		diffuseTex = loadTexture(matFile["diffuseTex"].get<std::string>().c_str());
 		//writeMaterialToFile("TEST");
 	};
+
+	void createPlaceholderMaterial(const char* fileName)
+	{
+		std::string path = fileName;
+
+		json matFile;
+		matFile["diffuseTex"] = path;
+		matFile["shader"] = "standard";
+
+		matFile["color"] = int_to_hex(packColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+		std::ofstream out(path);
+		out << std::setw(4) << matFile << std::endl;
+	}
 
 	void writeMaterialToFile()
 	{
