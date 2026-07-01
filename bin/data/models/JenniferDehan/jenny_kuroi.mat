@@ -1,5 +1,8 @@
 {
-    "color": "ffffffff",
+    "blendTransparent": false,
+    "color": "000000ff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_kuroi.mat",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "000000ff",
+    "specGloss": 0.05000000074505806
 }

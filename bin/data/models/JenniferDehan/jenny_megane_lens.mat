@@ -1,5 +1,8 @@
 {
-    "color": "ffffffff",
-    "diffuseTex": "./data/models/JenniferDehan/jenny_megane_lens.mat",
-    "shader": "standard"
+    "blendTransparent": true,
+    "color": "8c8c8c40",
+    "diffuseTex": "./data/models/JenniferDehan/glasses_ref_sakura.png",
+    "shader": "envmap",
+    "specColor": "000000ff",
+    "specGloss": 14.420999526977539
 }

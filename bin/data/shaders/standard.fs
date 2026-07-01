@@ -43,5 +43,5 @@ void main()
     vec4 diffuse = vec4(calcDirLight(dirLight, fs_in.Normal, viewDir), 1.0);
     vec4 ambient = vec4(ambient, 1.0);
 
-    FragColor = color * (diffuse + ambient) * texture(diffuseTex, fs_in.TexCoords);
+    FragColor = (diffuse + ambient) * (texture(diffuseTex, fs_in.TexCoords) * color);
 }

@@ -52,6 +52,7 @@ int main()
 
 void mainLoop()
 {
+
 	inputProcess();
 	gCamera.Update();
 

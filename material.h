@@ -21,6 +21,7 @@ extern glm::mat4 gViewMatrix;
 extern Light gDirLight;
 extern glm::vec3 gAmbientLight;
 extern Camera gCamera;
+extern Texture gDefaultTexture;
 
 using json = nlohmann::json;
 
@@ -31,6 +32,7 @@ class Material
 {
 public:
 	std::string name = std::string("NakieHomu");
+	std::string mFileName = std::string("NakieHomu");
 
 	Shader* mShader;
 	std::string shaderName;
@@ -41,48 +43,57 @@ public:
 	unsigned int normalTex;
 	std::string normalTexPath;
 
+	bool blendTransparent = false;
+
 	glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 specColor = glm::vec3(0.0f, 0.0f, 0.0f);
-	float specGloss = 0.01f;
+	glm::vec4 specColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	float specGloss = 0.05f;
+
 
 	static glm::vec4 hexStringToColor(std::string input)
 	{
 		glm::vec4 ret(1.0f, 1.0f, 1.0f, 1.0f);
 
-		std::cout << std::endl << "HEX: " << input << std::endl;
+		if (input.empty())
+			return ret;
+
+		//std::cout << std::endl << "HEX: " << input << std::endl;
 
 		std::vector<unsigned char> bytes = hex_to_bytes(input);
+
+		if (bytes.size() < 3)
+			return ret;
 
 		ret.r = (float)bytes[0] / 255.0f;
 		ret.g = (float)bytes[1] / 255.0f;
 		ret.b = (float)bytes[2] / 255.0f;
 		ret.a = (float)bytes[3] / 255.0f;
 
-		std::cout << std::endl << "HEX TO COLOR: " << std::endl
-			<< " r: " << ret.r
-			<< " g: " << ret.g
-			<< " b: " << ret.b
-			<< " a: " << ret.a
-			<< std::endl;
+		//std::cout << std::endl << "HEX TO COLOR: " << std::endl
+		//	<< " r: " << ret.r
+		//	<< " g: " << ret.g
+		//	<< " b: " << ret.b
+		//	<< " a: " << ret.a
+		//	<< std::endl;
 
 		return ret;
 	}
 
 
-	static int packColor(glm::vec4 colorToPack)
+	static std::string packColor(glm::vec4 colorToPack)
 	{
 
 		unsigned char bytes[4] =
 		{
-			COLOR_TO_CHAR(colorToPack.a),
-			COLOR_TO_CHAR(colorToPack.b),
+			COLOR_TO_CHAR(colorToPack.r),
 			COLOR_TO_CHAR(colorToPack.g),
-			COLOR_TO_CHAR(colorToPack.r)
+			COLOR_TO_CHAR(colorToPack.b),
+			COLOR_TO_CHAR(colorToPack.a)
 		};
 
-		int32_t out;
-		std::memcpy(&out, bytes, sizeof(out));
+		std::string out = bytes_to_hex(bytes, 4);
 		std::cout << std::endl << "PACKED: " << std::endl << std::hex << out << std::endl;
+
 		return out;
 	}
 
@@ -90,7 +101,8 @@ public:
 	{
 		std::ifstream f(fileName);
 
-		name = path_to_filename(fileName,true);
+		name = path_to_filename(fileName, true);
+		mFileName = fileName;
 
 		if (!f.is_open() && !createNew)
 		{
@@ -106,16 +118,50 @@ public:
 			return;
 		}
 
+		f.close();
 
+		loadMatFile(fileName);
+	};
+
+	void loadMatFile(const char* fileName )
+	{
+		std::ifstream f(fileName);
+
+		name = path_to_filename(fileName, true);
+		mFileName = fileName;
 
 		json matFile = json::parse(f);
 
 		//matFile.parse();
-		mShader = new Shader(matFile["shader"].get<std::string>().c_str());
-		color = hexStringToColor(matFile["color"].get<std::string>());
-		diffuseTex = loadTexture(matFile["diffuseTex"].get<std::string>().c_str());
-		//writeMaterialToFile("TEST");
-	};
+		if (!matFile["shader"].empty())
+		{
+			shaderName = matFile["shader"].get<std::string>();
+			mShader = new Shader(shaderName.c_str());
+		}
+
+		if (!matFile["color"].empty())
+			color = hexStringToColor(matFile["color"].get<std::string>());
+
+		if (!matFile["diffuseTex"].empty())
+		{
+			diffuseTexPath = matFile["diffuseTex"].get<std::string>();
+			diffuseTex = loadTexture(diffuseTexPath.c_str());
+		}
+
+		if (!matFile["specColor"].empty())
+			specColor = hexStringToColor(matFile["specColor"].get<std::string>());
+
+		if (!matFile["specGloss"].empty())
+			specGloss = matFile["specGloss"].get<float>();
+
+		if (!matFile["blendTransparent"].empty())
+			blendTransparent = matFile["blendTransparent"].get<bool>();
+	}
+
+	void reload()
+	{
+		loadMatFile(mFileName.c_str());
+	}
 
 	void createPlaceholderMaterial(const char* fileName)
 	{
@@ -125,41 +171,49 @@ public:
 		matFile["diffuseTex"] = path;
 		matFile["shader"] = "standard";
 
-		matFile["color"] = int_to_hex(packColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+		matFile["color"] = packColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		matFile["specColor"] = packColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+		matFile["specGloss"] = specGloss;
+		matFile["blendTransparent"] = blendTransparent;
+
 		std::ofstream out(path);
 		out << std::setw(4) << matFile << std::endl;
 	}
 
-	void writeMaterialToFile()
+	void saveMaterial()
 	{
 		std::string path;
-		path += "./data/materials/";
-
-		CreateDirectory(std::wstring(path.begin(), path.end()).c_str(), NULL);
-
-		path += name;
-		path += ".mat";
+		path += mFileName;
 
 		json matFile;
+		matFile["shader"] = shaderName;
 		matFile["diffuseTex"] = diffuseTexPath;
-		matFile["shader"] = "standard";
+		matFile["color"] = packColor(color);
+		matFile["specColor"] = packColor(specColor);
+		matFile["specGloss"] = specGloss;
+		matFile["blendTransparent"] = blendTransparent;
 
-		glm::vec4 testColor(0.25f, 0.5f, 1.0f, 1.0f);
-		matFile["color"] = int_to_hex(packColor(testColor));
-
-		std::cout << matFile << std::endl;
 		std::ofstream out(path);
-
 		out << std::setw(4) << matFile << std::endl;
+		out.close();
+	}
 
-		hexStringToColor(matFile["color"].get<std::string>());
-		
-	};
 
 	void Set(glm::mat4 model)
 	{
 		if (!mShader)
 			return;
+
+		if (blendTransparent)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+		else
+		{
+			glDisable(GL_BLEND);
+		}
 
 		mShader->use();
 		mShader->setMat4("projection", gProjectionMatrix);

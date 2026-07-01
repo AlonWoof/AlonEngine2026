@@ -1,5 +1,8 @@
 {
-    "color": "ffffffff",
+    "blendTransparent": true,
+    "color": "11111150",
     "diffuseTex": "./data/models/JenniferDehan/jenny_gloves_trasp.mat",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "ffffffff",
+    "specGloss": 15.819000244140625
 }

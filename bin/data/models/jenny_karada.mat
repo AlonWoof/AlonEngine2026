@@ -1,0 +1,5 @@
+{
+    "color": "ffffffff",
+    "diffuseTex": "./data/models/JenniferDehan/jenny_karada_color.png",
+    "shader": "standard"
+}

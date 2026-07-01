@@ -1,5 +1,8 @@
 {
-    "color": "ffffffff",
+    "blendTransparent": false,
+    "color": "000000ff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_collar_leather.mat",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "6f6f6fff",
+    "specGloss": 7.052999973297119
 }

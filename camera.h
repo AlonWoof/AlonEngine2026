@@ -7,6 +7,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "input.h"
 
+#include "imstb_textedit.h"
+#include "imgui.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_stdlib.h"
+
 extern float gDeltaTime;
 extern GLFWwindow* gWindow;
 
@@ -85,6 +90,18 @@ public:
         debugInput();
     }
 
+    void DrawUI()
+    {
+        ImGui::Begin("Camera Properties");
+
+
+        ImGui::Text("X: %f Y: %f Z: %f", Position.x, Position.y, Position.z);
+        ImGui::Text("Yaw: %f Pitch: %f", Yaw, Pitch);
+
+        ImGui::End();
+
+    };
+
     void debugInput()
     {
         if (inputKeyPressed(GLFW_KEY_F11))
@@ -92,10 +109,12 @@ public:
             if (mode == CAMMD_FREE)
             {
                 mode = CAMMD_NONE;
+                unlockCursor();
             }
             else
             { 
                 mode = CAMMD_FREE; 
+                lockCursor();
             }
                 
         }

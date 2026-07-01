@@ -4,6 +4,10 @@
 #include "object.h"
 #include "light.h"
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -21,9 +25,64 @@ glm::mat4 gViewMatrix;
 Light gDirLight;
 glm::vec3 gAmbientLight;
 
+Texture gDefaultTexture;
+
+unsigned char defaultTexData[]
+{
+	0xff, 0xff, 0xff, 0xff
+};
+
 static void fbSizeCallback(GLFWwindow* window, int width, int height);
 extern bool gApplicationQuit;
 extern std::vector<Object*> gObjectList;
+
+void setupDefaultTextureData()
+{
+	glGenTextures(1, &gDefaultTexture.id);
+	glBindTexture(GL_TEXTURE_2D, gDefaultTexture.id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, defaultTexData);
+}
+
+void initUI()
+{
+	float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor()); // Valid on GLFW 3.3+ only
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	ImGui::StyleColorsDark();
+
+	// Setup scaling
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.ScaleAllSizes(main_scale);        // Bake a fixed style scale. (until we have a solution for dynamic style scaling, changing this requires resetting Style + calling this again)
+	style.FontScaleDpi = main_scale;        // Set initial font scale. (in docking branch: using io.ConfigDpiScaleFonts=true automatically overrides this for every window depending on the current monitor)
+	
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(gWindow, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+
+	
+}
+
+void drawUI()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	for (unsigned int i = 0; i < gObjectList.size(); i++)
+	{
+		gObjectList[i]->DrawUI();
+	}
+
+	gCamera.DrawUI();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
 
 bool initGFX()
 {
@@ -60,6 +119,13 @@ bool initGFX()
 	gDirLight.Color = glm::vec3(1.0f, 0.98f, 0.9f);
 	gAmbientLight = glm::vec3(0.25f, 0.25f, 0.3f);
 
+	setupDefaultTextureData();
+	initUI();
+
+	gCamera.Position = glm::vec3(0.0f, 0.8f, -3.58f);
+	//gCamera.Yaw = -114.44f;
+	//gCamera.Pitch = -6.81f;
+
 	return true;
 }
 
@@ -77,6 +143,8 @@ void gfxRender()
 	if (glfwWindowShouldClose(gWindow))
 		gApplicationQuit = true;
 
+	
+
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//gProjectionMatrix = glm::mat4(1.0f);
@@ -89,6 +157,11 @@ void gfxRender()
 		gObjectList[i]->Draw();
 	}
 
+	drawUI();
+
 	glfwSwapBuffers(gWindow);
 	glfwPollEvents();
+	
+	
 }
+

@@ -1,0 +1,5 @@
+{
+    "color": "ffffffff",
+    "diffuseTex": "./data/models/JenniferDehan/jenny_innermouth.mat",
+    "shader": "standard"
+}

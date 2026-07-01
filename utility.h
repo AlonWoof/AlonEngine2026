@@ -4,6 +4,8 @@
 
 #include <string>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 #include <map>
 #include <vector>
 
@@ -37,6 +39,7 @@ T remove_extension(T const& filename)
 std::string path_to_filename(std::string in, bool removeExt = true);
 std::string extract_directory(const std::string& path);
 std::vector<unsigned char> hex_to_bytes(const std::string& hex);
+std::string bytes_to_hex(const unsigned char* data, int len);
 
 class AssimpGLMHelpers
 {

@@ -1,5 +1,8 @@
 {
+    "blendTransparent": false,
     "color": "ffffffff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_karada_color.png",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "373131ff",
+    "specGloss": 4.01800012588501
 }

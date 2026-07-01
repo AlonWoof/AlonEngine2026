@@ -19,8 +19,21 @@ void setupInput()
     lastX = gScreenSettings.resX / 2.0f;
     lastY = gScreenSettings.resX / 2.0f;
 
+    //glfwSetCursorPosCallback(gWindow, inputMouseCallback);
+    //glfwSetInputMode(gWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //lockCursor();
+}
+void lockCursor()
+{
     glfwSetCursorPosCallback(gWindow, inputMouseCallback);
     glfwSetInputMode(gWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
+void unlockCursor()
+{
+    glfwSetCursorPosCallback(gWindow, NULL);
+    glfwSetInputMode(gWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetCursorPosCallback(gWindow, ImGui_ImplGlfw_CursorPosCallback);
 }
 
 void inputProcess()
@@ -42,6 +55,7 @@ void inputProcess()
         gGamePad.leftStickX = std::lerp(gGamePad.leftStickX, -1.0f, 0.1f);
     if (inputKeyHeld(GLFW_KEY_D))
         gGamePad.leftStickX = std::lerp(gGamePad.leftStickX, 1.0f, 0.1f);
+
 
     
 }

@@ -1,5 +1,8 @@
 {
+    "blendTransparent": false,
     "color": "ffffffff",
-    "diffuseTex": "./data/models/JenniferDehan/jenny_soulgem_gem.mat",
-    "shader": "standard"
+    "diffuseTex": "./data/models/JenniferDehan/ref_soulgem.png",
+    "shader": "envmap",
+    "specColor": "000000ff",
+    "specGloss": 0.05000000074505806
 }

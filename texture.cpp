@@ -6,6 +6,7 @@
 #include "stb_image.h"
 #include "texture.h"
 #include "utility.h"
+#include "gfx.h"
 
 
 unsigned int loadTexture(char const* path)
@@ -42,6 +43,7 @@ unsigned int loadTexture(char const* path)
     }
     else
     {
+        textureID = gDefaultTexture.id;
         std::cout << "Texture failed to load at path: " << path << std::endl;
         stbi_image_free(data);
     }

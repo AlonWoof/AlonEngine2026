@@ -1,5 +1,8 @@
 {
+    "blendTransparent": false,
     "color": "ffffffff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_innermouth.mat",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "000000ff",
+    "specGloss": 0.05000000074505806
 }

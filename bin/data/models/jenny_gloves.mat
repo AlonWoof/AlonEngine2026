@@ -1,0 +1,5 @@
+{
+    "color": "ffffffff",
+    "diffuseTex": "./data/models/JenniferDehan/jenny_gloves.mat",
+    "shader": "standard"
+}

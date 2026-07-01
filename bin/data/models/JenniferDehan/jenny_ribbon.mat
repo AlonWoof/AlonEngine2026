@@ -1,5 +1,8 @@
 {
-    "color": "ffffffff",
+    "blendTransparent": false,
+    "color": "b91515ff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_ribbon.mat",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "ffdfdfff",
+    "specGloss": 5.954999923706055
 }

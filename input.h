@@ -28,6 +28,8 @@ typedef struct
 extern GamePad gGamePad;
 
 void setupInput();
+void lockCursor();
+void unlockCursor();
 void inputProcess();
 void inputMouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 bool inputKeyPressed(int key);

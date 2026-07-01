@@ -1,0 +1,5 @@
+{
+    "color": "ffffffff",
+    "diffuseTex": "./data/models/JenniferDehan/jenny_megane_lens.mat",
+    "shader": "standard"
+}

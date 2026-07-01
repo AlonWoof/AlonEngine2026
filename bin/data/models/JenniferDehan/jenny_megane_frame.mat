@@ -1,5 +1,8 @@
 {
-    "color": "ffffffff",
+    "blendTransparent": false,
+    "color": "650707ff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_megane_frame.mat",
-    "shader": "standard"
+    "shader": "standard",
+    "specColor": "ffffffff",
+    "specGloss": 10.345999717712402
 }

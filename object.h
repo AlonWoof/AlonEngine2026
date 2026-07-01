@@ -38,6 +38,11 @@ public:
 		//Code for rendering here.
 	}
 
+	virtual void DrawUI()
+	{
+		//If you want to draw something to the UI
+	}
+
 	void setPosition(glm::vec3 nPos) { Position = nPos; };
 	void setRotation(glm::vec3 nRot) { Rotation = nRot; };
 

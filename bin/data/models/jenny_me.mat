@@ -1,8 +1,7 @@
 {
-    "blendTransparent": false,
     "color": "ffffffff",
     "diffuseTex": "./data/models/JenniferDehan/jenny_me.mat",
     "shader": "standard",
-    "specColor": "000000ff",
-    "specGloss": 0.05000000074505806
+    "specColor": "0",
+    "specGloss": 0.009999999776482582
 }

@@ -1,0 +1,7 @@
+{
+    "color": "ffffffff",
+    "diffuseTex": "./data/models/JenniferDehan/jenny_boots.mat",
+    "shader": "standard",
+    "specColor": "0",
+    "specGloss": 0.009999999776482582
+}
